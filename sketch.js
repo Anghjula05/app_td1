@@ -20,7 +20,7 @@ function setup() {
 }
 
 function drawLabel() {
-  fill(0, 0, 0, 0);
+  fill(0, 0, 0);
   textAlign(CENTER);
   textSize(15);
   text("Cliquez sur une tête !", 400, 220);
