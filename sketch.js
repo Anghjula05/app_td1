@@ -1,8 +1,7 @@
 let palette;
 let selectedHead = null;
-let button;
 let animating = false;
-let offsetY = 0;
+let slideOffset = 0;
 let leftColor;
 let rightColor;
 const headRadius = 35;
@@ -13,17 +12,13 @@ function setup() {
 
   generatePalette();
   pickColors();
-
-  button = createButton("Suivant !");
-  button.position(365, 150);
-  button.mousePressed(onButtonPressed);
 }
 
 function drawLabel() {
   fill(0, 0, 0);
   textAlign(CENTER);
   textSize(15);
-  text("Cliquez sur une tête !", 400, 220);
+  text("Cliquez sur une tête", 400, 220);
 }
 
 function draw() {
@@ -31,38 +26,53 @@ function draw() {
   noStroke();
   drawLabel();
 
+  const leftHeadX = width / 2 - 100;
+  const rightHeadX = width / 2 + 100;
+  const baseHeadY = height / 2 - 50;
+  const baseTorsoY = height / 2 + 45;
+  let leftHeadY = baseHeadY;
+  let leftTorsoY = baseTorsoY;
+  let rightHeadY = baseHeadY;
+  let rightTorsoY = baseTorsoY;
+
   if (animating) {
-    offsetY += 10;
-    if (offsetY > height + 100) {
+    if (selectedHead === 'left') {
+      leftHeadY += slideOffset;
+      leftTorsoY += slideOffset;
+    } else if (selectedHead === 'right') {
+      rightHeadY += slideOffset;
+      rightTorsoY += slideOffset;
+    }
+
+    slideOffset += 10;
+    if (slideOffset > height + 100) {
       animating = false;
-      offsetY = 0;
+      slideOffset = 0;
+      if (selectedHead === 'left') {
+        leftColor = random(palette);
+      } else if (selectedHead === 'right') {
+        rightColor = random(palette);
+      }
       selectedHead = null;
-      generatePalette();
-      pickColors();
     }
   }
 
-  const leftHeadX = width / 2 - 100;
-  const rightHeadX = width / 2 + 100;
-  const headY = height / 2 - 50 + offsetY;
-  const torsoY = height / 2 + 45 + offsetY;
-
   fill(leftColor);
-  ellipse(leftHeadX, torsoY, 80, 120);
+  ellipse(leftHeadX, leftTorsoY, 80, 120);
   fill(leftColor);
-  circle(leftHeadX, headY, headDiameter);
+  circle(leftHeadX, leftHeadY, headDiameter);
 
   fill(rightColor);
-  ellipse(rightHeadX, torsoY, 80, 120);
+  ellipse(rightHeadX, rightTorsoY, 80, 120);
   fill(rightColor);
-  circle(rightHeadX, headY, headDiameter);
+  circle(rightHeadX, rightHeadY, headDiameter);
 
   if (selectedHead === 'left') {
     fill('red');
-    circle(leftHeadX, headY - 15, 10);
+    circle(leftHeadX, leftHeadY - 15, 10);
   } else if (selectedHead === 'right') {
     fill('red');
-    circle(rightHeadX, headY - 15, 10);
+    circle(rightHeadX, rightHeadY - 15, 10);
   }
 }
 
@@ -86,18 +96,11 @@ function mouseClicked() {
 
   if (dist(mouseX, mouseY, leftHeadX, headY) < headRadius) {
     selectedHead = 'left';
+    animating = true;
+    slideOffset = 0;
   } else if (dist(mouseX, mouseY, rightHeadX, headY) < headRadius) {
     selectedHead = 'right';
-  } else {
-    selectedHead = null;
-  }
-
-  redraw();
-}
-
-function onButtonPressed() {
-  if (!animating) {
     animating = true;
-    offsetY = 0;
+    slideOffset = 0;
   }
 }
