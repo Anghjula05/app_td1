@@ -15,13 +15,21 @@ function setup() {
   pickColors();
 
   button = createButton("Suivant !");
-  button.position(350, 150);
+  button.position(365, 150);
   button.mousePressed(onButtonPressed);
+}
+
+function drawLabel() {
+  fill(0);
+  textAlign(CENTER);
+  textSize(15);
+  text("Cliquez sur une tête !", 400, 220);
 }
 
 function draw() {
   background(220);
   noStroke();
+  drawLabel();
 
   if (animating) {
     offsetY += 10;

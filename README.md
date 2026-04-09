@@ -67,3 +67,4 @@ Objectif : ajouter un bouton au-dessus des personnages. Lorsqu’on clique dessu
         Enlevé le loop() inutile dans onButtonPressed().
 
 J'ai ensuite rajouté des couleurs à la palette pour plus de diversité.
+J'ai demandé à l'IA d'ajouter une balise de texte pour l'utilisateur.
