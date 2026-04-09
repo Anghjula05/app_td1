@@ -68,3 +68,4 @@ Objectif : ajouter un bouton au-dessus des personnages. Lorsqu’on clique dessu
 
 J'ai ensuite rajouté des couleurs à la palette pour plus de diversité.
 J'ai demandé à l'IA d'ajouter une balise de texte pour l'utilisateur.
+La balise avait fill(0) que j'ai changé pour fill(0, 0, 0) car GitHud ne prend pas en compte fill(0) et le texte ne s'affichait pas.
